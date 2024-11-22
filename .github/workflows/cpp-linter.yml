@@ -1,4 +1,4 @@
-name: C++ Test and Lint
+name: C++ Linting
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
   pull_request:
 
 jobs:
-  build-and-lint:
+  lint:
     runs-on: ubuntu-latest
 
     steps:
@@ -17,34 +17,10 @@ jobs:
     - name: Install Dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y \
-          build-essential \
-          cmake \
-          ninja-build \
-          clang-format \
-          python3.12 \
-          python3.12-dev \
-          python3.12-venv
-        python3.12 -m pip install --user conan
+        sudo apt-get install -y clang-tidy clang-format
 
-    - name: Configure Conan Profile
+    - name: Run Clang-Tidy and Clang-Format
       run: |
-        conan profile detect
-        conan install . --build=missing
-
-    - name: Build Project with CMake
-      run: |
-        mkdir -p build
-        cd build
-        cmake -G Ninja ..
-        ninja
-
-    - name: Run C++ Tests with Make
-      run: |
-        cd build
-        make test
-
-    - name: Run Clang-Format (C++ Formatter)
-      run: |
-        find . -name "*.cpp" -o -name "*.h" | xargs clang-format -i
+        make cpplint
+        make cppformat
 

@@ -1,4 +1,4 @@
-name: C++ Unit Tests
+name: C++ Build and Test
 
 on:
   push:
@@ -7,34 +7,34 @@ on:
   pull_request:
 
 jobs:
-  test:
+  build-and-test:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+    - name: Checkout code
+      uses: actions/checkout@v3
 
-      - name: Install Dependencies
-        run: |
-          curl -L https://github.com/conan-io/conan/releases/download/2.0.0/conan-2.0.0-linux.zip -o conan.zip
-          unzip conan.zip -d ~/.local/bin
-          export PATH=$HOME/.local/bin:$PATH
-          conan profile detect
-          pip install ninja  # Install Ninja build system locally
+    - name: Install Dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y \
+          build-essential \
+          cmake \
+          ninja-build \
+          clang-format \
+          python3.12 \
+          python3.12-dev \
+          python3.12-venv
+        python3.12 -m ensurepip
+        python3.12 -m pip install --upgrade pip
+        python3.12 -m pip install conan poetry
 
-      - name: Install Build Requirements
-        run: |
-          conan install . --build=missing
+    - name: Run Makefile Targets (Install + Build)
+      run: |
+        make install
+        make build
 
-      - name: Build Project
-        run: |
-          mkdir -p build
-          cd build
-          cmake -G Ninja -DCMAKE_BUILD_TYPE=Release ..
-          ninja
-
-      - name: Run Tests
-        run: |
-          cd build
-          ctest
+    - name: Run C++ Tests
+      run: |
+        make cpptest
 
