@@ -12,23 +12,23 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
+      
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.12"
 
-    - name: Install Python 3.12 and Poetry
+    - name: Install Poetry
       run: |
-        sudo apt-get update
-        sudo apt-get install -y software-properties-common
-        sudo add-apt-repository ppa:deadsnakes/ppa
-        sudo apt-get update
-        sudo apt-get install -y \
-          python3.12 \
-          python3.12-dev \
-          python3.12-venv \
-          python3.12-distutils
-        python3.12 -m ensurepip
-        python3.12 -m pip install --upgrade pip
-        python3.12 -m pip install poetry
+        python -m pip install --upgrade pip
+        pip install poetry
+
+    - name: Install Dependencies
+      run: |
+        poetry install
 
     - name: Run Python Tests
       run: |
-        make pytest
+        poetry run pytest
+
