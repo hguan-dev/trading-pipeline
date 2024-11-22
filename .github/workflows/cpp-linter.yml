@@ -1,4 +1,4 @@
-name: C++ Lint and Format
+name: C++ Test and Lint
 
 on:
   push:
@@ -7,27 +7,44 @@ on:
   pull_request:
 
 jobs:
-  lint:
+  build-and-lint:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+    - name: Checkout code
+      uses: actions/checkout@v3
 
-      - name: Install Clang Tools
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y clang-tidy clang-format
+    - name: Install Dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y \
+          build-essential \
+          cmake \
+          ninja-build \
+          clang-format \
+          python3.12 \
+          python3.12-dev \
+          python3.12-venv
+        python3.12 -m pip install --user conan
 
-      - name: Run Clang-Format
-        run: |
-          find . -name '*.cpp' -o -name '*.h' | xargs clang-format -i
+    - name: Configure Conan Profile
+      run: |
+        conan profile detect
+        conan install . --build=missing
 
-      - name: Run Clang-Tidy
-        run: |
-          mkdir -p build
-          cd build
-          cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
-          cd ..
-          clang-tidy $(find . -name '*.cpp') -- -p build
+    - name: Build Project with CMake
+      run: |
+        mkdir -p build
+        cd build
+        cmake -G Ninja ..
+        ninja
+
+    - name: Run C++ Tests with Make
+      run: |
+        cd build
+        make test
+
+    - name: Run Clang-Format (C++ Formatter)
+      run: |
+        find . -name "*.cpp" -o -name "*.h" | xargs clang-format -i
 

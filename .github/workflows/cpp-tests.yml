@@ -16,15 +16,22 @@ jobs:
 
       - name: Install Dependencies
         run: |
-          sudo apt-get update
-          sudo apt-get install -y build-essential cmake
+          curl -L https://github.com/conan-io/conan/releases/download/2.0.0/conan-2.0.0-linux.zip -o conan.zip
+          unzip conan.zip -d ~/.local/bin
+          export PATH=$HOME/.local/bin:$PATH
+          conan profile detect
+          pip install ninja  # Install Ninja build system locally
+
+      - name: Install Build Requirements
+        run: |
+          conan install . --build=missing
 
       - name: Build Project
         run: |
           mkdir -p build
           cd build
-          cmake ..
-          make
+          cmake -G Ninja -DCMAKE_BUILD_TYPE=Release ..
+          ninja
 
       - name: Run Tests
         run: |
