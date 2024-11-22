@@ -1,0 +1,33 @@
+name: C++ Lint and Format
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install Clang Tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y clang-tidy clang-format
+
+      - name: Run Clang-Format
+        run: |
+          find . -name '*.cpp' -o -name '*.h' | xargs clang-format -i
+
+      - name: Run Clang-Tidy
+        run: |
+          mkdir -p build
+          cd build
+          cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+          cd ..
+          clang-tidy $(find . -name '*.cpp') -- -p build
+
