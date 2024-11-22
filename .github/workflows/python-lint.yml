@@ -17,6 +17,9 @@ jobs:
     - name: Install Python 3.12 and Poetry
       run: |
         sudo apt-get update
+        sudo apt-get install -y software-properties-common
+        sudo add-apt-repository ppa:deadsnakes/ppa
+        sudo apt-get update
         sudo apt-get install -y python3.12 python3.12-dev python3.12-venv
         python3.12 -m ensurepip
         python3.12 -m pip install --upgrade pip
@@ -25,4 +28,3 @@ jobs:
     - name: Run Python Linters
       run: |
         make pylint
-
