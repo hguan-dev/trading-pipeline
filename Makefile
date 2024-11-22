@@ -25,10 +25,10 @@ cppinstall:
 
 test: build pytest cpptest
 
-pytest:
+pytest: install build
 	@poetry run pytest $(PY_SRC)/test
 
-cpptest:
+cpptest: build
 	@cd build && ./intern_tests
 
 clean:
@@ -43,8 +43,9 @@ pylint:
 	poetry run ruff check $(PY_SRC)
 	poetry run ruff format --check $(PY_SRC)
 
-cpplint:
+cpplint: build
 	run-clang-tidy -j $(shell nproc) -p build
+	find $(CPP_SRC) -name '*.cpp' -o -name '*.hpp' | xargs clang-format -i
 
 format: pyformat cppformat
 
@@ -52,6 +53,6 @@ pyformat:
 	poetry run ruff format $(PY_SRC)
 	poetry run ruff check --fix $(PY_SRC)
 
-cppformat:
+cppformat: build
 	find $(CPP_SRC) -name '*.cpp' -o -name '*.hpp' | xargs clang-format -i
 	run-clang-tidy -fix -j $(shell nproc) -p build

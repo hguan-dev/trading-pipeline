@@ -19,16 +19,24 @@ jobs:
       with:
         python-version: "3.12"
 
-    - name: Install Poetry
+    - name: Install Build Tools
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y cmake ninja-build clang
+
+    - name: Install Python Dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install poetry
+        pip install poetry conan
 
     - name: Install Dependencies
       run: |
-        poetry install
+        make install
 
-    - name: Run Python Tests
+    - name: Build the Project
       run: |
-        poetry run pytest
+        make build
 
+    - name: Run Python and C++ Tests
+      run: |
+        make test

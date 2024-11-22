@@ -1,29 +1,33 @@
-name: C++ Linting
+name: CI - C++ Linting and Formatting
 
 on:
-  push:
-    branches:
-      - main
-  pull_request:
+    push:
+        branches:
+            - main
+    pull_request:
 
 jobs:
-  lint:
-    runs-on: ubuntu-latest
+    cpp-lint-and-format:
+        runs-on: ubuntu-latest
 
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+        steps:
+        - name: Checkout repository
+          uses: actions/checkout@v4
 
-    - name: Install Dependencies
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y clang-tidy clang-format cmake ninja-build build-essential
+        - name: Set up Python
+          uses: actions/setup-python@v5
+          with:
+            python-version: '3.12'
+        
+        - name: Install dependencies
+          run: |
+            pip install --upgrade pip
+            pipx install conan
+            conan profile detect
+            bash < .github/scripts/conan-profile.sh
+            pipx install ninja
 
-    - name: Build Project and Generate Compile Commands
-      run: |
-        make build
-
-    - name: Run Clang-Tidy and Clang-Format
-      run: |
-        make cpplint
-        make cppformat
+        - name: Run Clang-Tidy and Clang-Format
+          run: |
+            make cpplint
+            make cppformat

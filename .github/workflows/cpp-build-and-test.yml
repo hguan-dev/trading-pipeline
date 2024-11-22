@@ -1,43 +1,31 @@
-name: C++ Build and Test
+name: CI - C++ Unit Tests
 
 on:
-  push:
-    branches:
-      - main
-  pull_request:
+    push:
+        branches:
+            - main
+    pull_request:
 
 jobs:
-  build-and-test:
-    runs-on: ubuntu-latest
+    cpp-unit-tests:
+        runs-on: ubuntu-latest
 
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+        steps:
+        - name: Checkout repository
+          uses: actions/checkout@v4
 
-    - name: Install Dependencies
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y software-properties-common
-        sudo add-apt-repository -y ppa:deadsnakes/ppa
-        sudo apt-get update
-        sudo apt-get install -y \
-          build-essential \
-          cmake \
-          ninja-build \
-          clang-format \
-          python3.12 \
-          python3.12-dev \
-          python3.12-venv \
-          python3.12-distutils
-        python3.12 -m ensurepip
-        python3.12 -m pip install --upgrade pip
-        python3.12 -m pip install conan poetry
+        - name: Set up Python
+          uses: actions/setup-python@v5
+          with:
+            python-version: '3.12'
+        
+        - name: Install dependencies
+          run: |
+            pip install --upgrade pip
+            pipx install conan
+            conan profile detect
+            bash < .github/scripts/conan-profile.sh
+            pipx install ninja
 
-    - name: Run Makefile Targets (Install + Build)
-      run: |
-        make install
-        make build
-
-    - name: Run C++ Tests
-      run: |
-        make cpptest
+        - name: Run unit tests
+          run: make cpptest
