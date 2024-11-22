@@ -5,12 +5,14 @@ PY_SRC = src/pysrc
 CPP_SRC = src/cppsrc
 
 build: cppinstall
+	mkdir -p build
 	cd build && cmake .. \
 		-DCMAKE_TOOLCHAIN_FILE=$(RELEASE_TYPE)/generators/conan_toolchain.cmake \
 		-DCMAKE_BUILD_TYPE=$(RELEASE_TYPE) \
 		-DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
 		-G Ninja
 	cd build && cmake --build .
+	ln -sf build/compile_commands.json compile_commands.json
 	@cp -f build/*.so $(PY_SRC)
 
 install:
@@ -32,6 +34,7 @@ cpptest:
 clean:
 	@rm -rf build
 	@rm -f $(PY_SRC)/*.so
+	@rm -f compile_commands.json
 
 lint: pylint cpplint
 

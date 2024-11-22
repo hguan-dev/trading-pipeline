@@ -17,10 +17,13 @@ jobs:
     - name: Install Dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y clang-tidy clang-format
+        sudo apt-get install -y clang-tidy clang-format cmake ninja-build build-essential
+
+    - name: Build Project and Generate Compile Commands
+      run: |
+        make build
 
     - name: Run Clang-Tidy and Clang-Format
       run: |
         make cpplint
         make cppformat
-
