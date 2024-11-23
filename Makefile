@@ -12,7 +12,6 @@ build: cppinstall
 		-DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
 		-G Ninja
 	cd build && cmake --build .
-	ln -sf build/compile_commands.json compile_commands.json
 	@cp -f build/*.so $(PY_SRC)
 
 install:
@@ -32,7 +31,6 @@ cpptest: build
 clean:
 	@rm -rf build
 	@rm -f $(PY_SRC)/*.so
-	@rm -f compile_commands.json
 
 lint: pylint cpplint
 
