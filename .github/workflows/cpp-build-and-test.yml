@@ -23,5 +23,5 @@ jobs:
           run:
             make dependencies
 
-        - name: Run Unit Tests
+        - name: Run C++ Tests
           run: make cpptest

@@ -23,7 +23,7 @@ jobs:
           run: |
             make dependencies
 
-        - name: Run Clang-Tidy and Clang-Format
+        - name: Run Clang-Tidy and Clang-Format (Linters)
           run: |
             make cpplint
             make cppformat
