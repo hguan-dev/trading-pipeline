@@ -1,12 +1,22 @@
 [tool.poetry]
 name = "intern-project"
 version = "0.1.0"
-description = "A project for managing Python and C++ dependencies"
-authors = ["Harry Guan <guanhuai2014@gmail.com>"]
+description = ""
+authors = ["Your Name <you@example.com>"]
 readme = "README.md"
 packages = [
-  { include = "pysrc", from = "src" }
+  {include = "pysrc", from = "src"}
 ]
+
+[project]
+name = "intern-project"
+version = "0.1.0"
+description = ""
+readme = "README.md"
+packages = [
+  {include = "pysrc", from = "src"}
+]
+
 
 [tool.poetry.dependencies]
 python = "^3.12"
@@ -14,12 +24,11 @@ pytest = "^8.3.3"
 mypy = "^1.12.1"
 ruff = "^0.7.0"
 
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
-[tool.ruff]
-per-file-ignores = [
-  { file = "*.py", codes = ["F401"] }  # Ignore unused imports
-]
-
+[tool.ruff.lint.per-file-ignores]
+# ignore unused imports since they are helpful for the template
+"*.py" = ["F401"]
