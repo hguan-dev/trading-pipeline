@@ -1,4 +1,4 @@
-name: Python Testing
+name: CI - Python Testing
 
 on:
   push:
@@ -19,24 +19,11 @@ jobs:
       with:
         python-version: "3.12"
 
-    - name: Install Build Tools
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y cmake ninja-build clang
-
-    - name: Install Python Dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install poetry conan
-
     - name: Install Dependencies
       run: |
-        make install
+        make dependencies
+        pipx install poetry
 
-    - name: Build the Project
+    - name: Run Python Unit Tests
       run: |
-        make build
-
-    - name: Run Python and C++ Tests
-      run: |
-        make test
+        make pytest

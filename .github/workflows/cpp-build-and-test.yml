@@ -19,13 +19,9 @@ jobs:
           with:
             python-version: '3.12'
         
-        - name: Install dependencies
-          run: |
-            pip install --upgrade pip
-            pipx install conan
-            conan profile detect
-            bash < .github/scripts/conan-profile.sh
-            pipx install ninja
+        - name: Install Dependencies
+          run:
+            make dependencies
 
-        - name: Run unit tests
+        - name: Run Unit Tests
           run: make cpptest

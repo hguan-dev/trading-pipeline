@@ -16,8 +16,6 @@ build: cppinstall
 	@cp -f build/*.so $(PY_SRC)
 
 install:
-	poetry lock --no-update
-	poetry env use python3.12
 	poetry install
 
 cppinstall:
@@ -48,6 +46,13 @@ cpplint: build
 	find $(CPP_SRC) -name '*.cpp' -o -name '*.hpp' | xargs clang-format -i
 
 format: pyformat cppformat
+
+dependencies:
+	pip install --upgrade pip
+	pipx install conan
+	conan profile detect
+	bash < .github/scripts/conan-profile.sh
+	pipx install ninja
 
 pyformat:
 	poetry run ruff format $(PY_SRC)
