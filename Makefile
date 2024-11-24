@@ -1,4 +1,4 @@
-.PHONY: build pythoninstall cppinstall test pytest-unit pytest-integration cpptest clean lint pylint cpplint format pyformat cppformat dependencies
+.PHONY: build pythoninstall cppinstall test pytest-unit pytest-integration cpptest clean lint pylint cpplint format pyformat cppformat
 
 RELEASE_TYPE = Release
 PY_SRC = src/pysrc
