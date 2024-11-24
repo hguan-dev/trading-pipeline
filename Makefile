@@ -4,7 +4,7 @@ RELEASE_TYPE = Release
 PY_SRC = src/pysrc
 CPP_SRC = src/cppsrc
 
-build: cppinstall
+build: cppinstall, dependencies
 	mkdir -p build
 	cd build && cmake .. \
 		-DCMAKE_TOOLCHAIN_FILE=$(RELEASE_TYPE)/generators/conan_toolchain.cmake \
@@ -43,7 +43,7 @@ clean:
 lint: pylint cpplint
 
 # Python Linting
-pylint: pyinstall
+pylint: pythoninstall
 	poetry run mypy --install-types --non-interactive $(PY_SRC)
 	poetry run ruff check $(PY_SRC)
 	poetry run ruff format --check $(PY_SRC)
@@ -64,7 +64,7 @@ dependencies:
 	pipx install ninja
 
 # Python Dependencies
-pyformat: pyinstall
+pyformat: pythoninstall
 	poetry run ruff format $(PY_SRC)
 	poetry run ruff check --fix $(PY_SRC)
 
