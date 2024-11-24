@@ -18,6 +18,9 @@ jobs:
           uses: actions/setup-python@v5
           with:
             python-version: '3.12'
+
+        - name: Run C++ Build
+          run: make build
         
         - name: Run C++ Tests
           run: make cpptest
