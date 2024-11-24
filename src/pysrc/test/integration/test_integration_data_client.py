@@ -3,6 +3,7 @@
 import pytest
 from pysrc.data_client import DataClient, Trade, Side
 
+
 @pytest.mark.integration
 def test_data_client_integration() -> None:
     """
@@ -33,4 +34,3 @@ def test_data_client_integration() -> None:
     assert isinstance(first_trade["side"], Side), "side should be a Side enum"
 
     print(f"First trade data: {first_trade}")
-

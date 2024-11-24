@@ -29,7 +29,7 @@ class TestDataClient(TestCase):
 
     @patch.object(DataClient, "_query_api")
     def test_get_data(self, mock_query_api: MagicMock) -> None:
-        mock_query_api.return_value = None 
+        mock_query_api.return_value = None
         self.client.raw_data = [
             {
                 "timestampms": 15151515,
@@ -45,4 +45,3 @@ class TestDataClient(TestCase):
         self.assertEqual(len(result), 1)
         self.assertEqual(result[0]["price"], 420.69)
         self.assertEqual(result[0]["side"], Side.BUY)
-

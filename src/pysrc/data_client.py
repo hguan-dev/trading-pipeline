@@ -2,9 +2,11 @@ import requests
 from typing import Any, TypedDict
 from enum import Enum
 
+
 class Side(Enum):
     BUY = 0
     SELL = 1
+
 
 class Trade(TypedDict):
     timestampms: int
@@ -42,7 +44,7 @@ class DataClient:
             id=message["tid"],
             price=float(message["price"]),
             volume=float(message["amount"]),
-            side=Side.BUY if message["type"] == "buy" else Side.SELL
+            side=Side.BUY if message["type"] == "buy" else Side.SELL,
         )
 
     def get_data(self) -> list[Trade]:

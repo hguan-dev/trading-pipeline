@@ -5,7 +5,7 @@ PY_SRC = src/pysrc
 CPP_SRC = src/cppsrc
 
 # Build C++ Project
-build: cppinstall, dependencies
+build: cppinstall dependencies
 	mkdir -p build
 	cd build && cmake .. \
 		-DCMAKE_TOOLCHAIN_FILE=$(RELEASE_TYPE)/generators/conan_toolchain.cmake \
