@@ -5,7 +5,7 @@ PY_SRC = src/pysrc
 CPP_SRC = src/cppsrc
 
 # Build C++ Project
-build: cppinstall dependencies
+build: dependencies cppinstall
 	mkdir -p build
 	cd build && cmake .. \
 		-DCMAKE_TOOLCHAIN_FILE=$(RELEASE_TYPE)/generators/conan_toolchain.cmake \
@@ -21,7 +21,7 @@ pythoninstall:
 	poetry install
 	
 # Conan Installation
-cppinstall:
+cppinstall: dependencies
 	conan install . --build=missing
 
 test: pytest-unit pytest-integration cpptest-unit cpptest-integration
@@ -50,7 +50,7 @@ pylint: pythoninstall
 	poetry run ruff format --check $(PY_SRC)
 
 # C++ Linting
-cpplint: dependencies
+cpplint: build
 	run-clang-tidy -j $(shell nproc) -p build
 	find $(CPP_SRC) -name '*.cpp' -o -name '*.hpp' | xargs clang-format -i
 
