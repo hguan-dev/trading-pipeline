@@ -21,8 +21,7 @@ jobs:
 
     - name: Install Dependencies
       run: |
-        make dependencies
-        pipx install poetry
+        make pythoninstall
 
     - name: Run Python Unit Tests
       run: |

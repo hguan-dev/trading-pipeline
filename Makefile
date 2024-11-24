@@ -14,7 +14,8 @@ build: cppinstall
 	cd build && cmake --build .
 	@cp -f build/*.so $(PY_SRC)
 
-install:
+pythoninstall:
+	pipx install poetry
 	poetry install
 
 cppinstall:
@@ -40,7 +41,7 @@ clean:
 lint: pylint cpplint
 
 pylint:
-	poetry run mypy $(PY_SRC)
+	poetry run mypy --install-types --non-interactive $(PY_SRC)
 	poetry run ruff check $(PY_SRC)
 	poetry run ruff format --check $(PY_SRC)
 

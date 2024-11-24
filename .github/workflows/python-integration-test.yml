@@ -20,8 +20,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          make dependencies
-          pipx install poetry
+          make pythoninstall 
 
       - name: Run Integration Tests
         run: |
