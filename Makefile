@@ -69,3 +69,7 @@ pyformat: pythoninstall
 	poetry run ruff format $(PY_SRC)
 	poetry run ruff check --fix $(PY_SRC)
 
+# C++ Formatting
+cppformat: build
+	find $(CPP_SRC) -name '*.cpp' -o -name '*.hpp' | xargs clang-format -i
+	run-clang-tidy -fix -j $(shell nproc) -p build

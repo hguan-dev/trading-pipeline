@@ -19,9 +19,6 @@ jobs:
           with:
             python-version: '3.12'
        
-        - name: Install Dependencies
-          run: make cppinstall
-
         - name: Run Clang-Tidy and Clang-Format (Linters)
           run: |
             make cpplint

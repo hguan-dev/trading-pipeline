@@ -12,10 +12,7 @@ def test_data_client_integration() -> None:
 
     client = DataClient()
 
-    try:
-        data = client.get_data()
-    except Exception as e:
-        pytest.fail(f"DataClient integration test failed with error: {e}")
+    data = client.get_data()
 
     assert isinstance(data, list), "get_data should return a list"
     assert len(data) > 0, "No trades were returned from the API"
