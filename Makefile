@@ -1,4 +1,4 @@
-.PHONY: build install cppinstall test pytest-unit pytest-integration cpptest clean lint pylint cpplint format pyformat cppformat
+.PHONY: build pythoninstall cppinstall test pytest-unit pytest-integration cpptest clean lint pylint cpplint format pyformat cppformat dependencies
 
 RELEASE_TYPE = Release
 PY_SRC = src/pysrc
@@ -17,7 +17,8 @@ build: cppinstall, dependencies
 # Poetry Installation
 pythoninstall:
 	pipx install poetry
-	poetry install
+	poetry install:w
+	
 
 # Conan Installation
 cppinstall:
@@ -68,6 +69,13 @@ pyformat: pythoninstall
 	poetry run ruff format $(PY_SRC)
 	poetry run ruff check --fix $(PY_SRC)
 
-cppformat: dependencies
-	find $(CPP_SRC) -name '*.cpp' -o -name '*.hpp' | xargs clang-format -i
-	run-clang-tidy -fix -j $(shell nproc) -p build
+# Dependencies for C++ Projects
+dependencies:
+	pip install --upgrade pip
+	pipx install --force conan
+	@if [ ! -f ~/.conan2/profiles/default ]; then \
+		conan profile detect; \
+	else \
+		echo "Conan default profile already exists, skipping profile detection."; \
+	fi
+	pipx install --force ninja
