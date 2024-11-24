@@ -1,0 +1,28 @@
+name: CI - Python Integration Tests
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          make dependencies
+          pipx install poetry
+
+      - name: Run Integration Tests
+        run: |
+          make pytest-integration

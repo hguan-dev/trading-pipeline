@@ -1,4 +1,4 @@
-.PHONY: build install cppinstall test pytest cpptest clean lint pylint cpplint format pyformat cppformat
+.PHONY: build install cppinstall test pytest-unit pytest-integration cpptest clean lint pylint cpplint format pyformat cppformat
 
 RELEASE_TYPE = Release
 PY_SRC = src/pysrc
@@ -20,11 +20,16 @@ install:
 cppinstall:
 	conan install . --build=missing
 
-test: build pytest cpptest
+test: pytest-unit pytest-integration cpptest-unit cpptest-integration
 
-pytest: install build
-	@poetry run pytest $(PY_SRC)/test
+# Python Tests
+pytest-unit: install build
+	@poetry run pytest $(PY_SRC)/test/unit
 
+pytest-integration: install build
+	@poetry run pytest $(PY_SRC)/test/integration
+
+# Cpp Tests (to be finished)
 cpptest: build
 	@cd build && ./intern_tests
 
