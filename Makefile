@@ -4,6 +4,7 @@ RELEASE_TYPE = Release
 PY_SRC = src/pysrc
 CPP_SRC = src/cppsrc
 
+# Build C++ Project
 build: cppinstall, dependencies
 	mkdir -p build
 	cd build && cmake .. \
@@ -17,9 +18,8 @@ build: cppinstall, dependencies
 # Poetry Installation
 pythoninstall:
 	pipx install poetry
-	poetry install:w
+	poetry install
 	
-
 # Conan Installation
 cppinstall:
 	conan install . --build=missing
@@ -33,7 +33,7 @@ pytest-unit: pythoninstall
 pytest-integration: pythoninstall
 	@poetry run pytest $(PY_SRC)/test/integration
 
-# Cpp Tests (to be finished)
+# C++ Tests (to be finished)
 cpptest: build dependencies
 	@cd build && ./intern_tests
 
@@ -49,20 +49,12 @@ pylint: pythoninstall
 	poetry run ruff check $(PY_SRC)
 	poetry run ruff format --check $(PY_SRC)
 
-# Cpp Linting
+# C++ Linting
 cpplint: dependencies
 	run-clang-tidy -j $(shell nproc) -p build
 	find $(CPP_SRC) -name '*.cpp' -o -name '*.hpp' | xargs clang-format -i
 
 format: pyformat cppformat
-
-# Cpp Dependencies
-dependencies:
-	pip install --upgrade pip
-	pipx install conan
-	conan profile detect
-	bash < .github/scripts/conan-profile.sh
-	pipx install ninja
 
 # Python Dependencies
 pyformat: pythoninstall
