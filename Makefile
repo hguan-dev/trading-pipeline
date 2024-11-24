@@ -5,7 +5,7 @@ PY_SRC = src/pysrc
 CPP_SRC = src/cppsrc
 
 # Build C++ Project
-build: dependencies cppinstall
+build: cppinstall
 	mkdir -p build
 	cd build && cmake .. \
 		-DCMAKE_TOOLCHAIN_FILE=$(RELEASE_TYPE)/generators/conan_toolchain.cmake \
@@ -21,10 +21,18 @@ pythoninstall:
 	poetry install
 	
 # Conan Installation
-cppinstall: dependencies
+cppinstall:
+	pip install --upgrade pip
+	pipx install --force conan
+	@if [ ! -f ~/.conan2/profiles/default ]; then \
+		conan profile detect; \
+	else \
+		echo "Conan default profile already exists, skipping profile detection."; \
+	fi
+	pipx install --force ninja
 	conan install . --build=missing
 
-test: pytest-unit pytest-integration cpptest-unit cpptest-integration
+test: pytest-unit pytest-integration cpptest
 
 # Python Tests
 pytest-unit: pythoninstall
@@ -34,7 +42,7 @@ pytest-integration: pythoninstall
 	@poetry run pytest $(PY_SRC)/test/integration
 
 # C++ Tests (to be finished)
-cpptest: build dependencies
+cpptest: build
 	@cd build && ./intern_tests
 
 clean:
@@ -56,18 +64,8 @@ cpplint: build
 
 format: pyformat cppformat
 
-# Python Dependencies
+# Python Formatting
 pyformat: pythoninstall
 	poetry run ruff format $(PY_SRC)
 	poetry run ruff check --fix $(PY_SRC)
 
-# Dependencies for C++ Projects
-dependencies:
-	pip install --upgrade pip
-	pipx install --force conan
-	@if [ ! -f ~/.conan2/profiles/default ]; then \
-		conan profile detect; \
-	else \
-		echo "Conan default profile already exists, skipping profile detection."; \
-	fi
-	pipx install --force ninja
