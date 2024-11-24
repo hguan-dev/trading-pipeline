@@ -18,10 +18,6 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Install dependencies
-        run: |
-          make pythoninstall 
-
       - name: Run Integration Tests
         run: |
           make pytest-integration

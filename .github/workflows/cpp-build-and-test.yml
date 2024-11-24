@@ -19,9 +19,5 @@ jobs:
           with:
             python-version: '3.12'
         
-        - name: Install Dependencies
-          run:
-            make dependencies
-
         - name: Run C++ Tests
           run: make cpptest

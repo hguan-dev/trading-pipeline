@@ -14,24 +14,26 @@ build: cppinstall
 	cd build && cmake --build .
 	@cp -f build/*.so $(PY_SRC)
 
+# Poetry Installation
 pythoninstall:
 	pipx install poetry
 	poetry install
 
+# Conan Installation
 cppinstall:
 	conan install . --build=missing
 
 test: pytest-unit pytest-integration cpptest-unit cpptest-integration
 
 # Python Tests
-pytest-unit: install build
+pytest-unit: pythoninstall
 	@poetry run pytest $(PY_SRC)/test/unit
 
-pytest-integration: install build
+pytest-integration: pythoninstall
 	@poetry run pytest $(PY_SRC)/test/integration
 
 # Cpp Tests (to be finished)
-cpptest: build
+cpptest: build dependencies
 	@cd build && ./intern_tests
 
 clean:
@@ -40,17 +42,20 @@ clean:
 
 lint: pylint cpplint
 
-pylint:
+# Python Linting
+pylint: pyinstall
 	poetry run mypy --install-types --non-interactive $(PY_SRC)
 	poetry run ruff check $(PY_SRC)
 	poetry run ruff format --check $(PY_SRC)
 
-cpplint: build
+# Cpp Linting
+cpplint: dependencies
 	run-clang-tidy -j $(shell nproc) -p build
 	find $(CPP_SRC) -name '*.cpp' -o -name '*.hpp' | xargs clang-format -i
 
 format: pyformat cppformat
 
+# Cpp Dependencies
 dependencies:
 	pip install --upgrade pip
 	pipx install conan
@@ -58,10 +63,11 @@ dependencies:
 	bash < .github/scripts/conan-profile.sh
 	pipx install ninja
 
-pyformat:
+# Python Dependencies
+pyformat: pyinstall
 	poetry run ruff format $(PY_SRC)
 	poetry run ruff check --fix $(PY_SRC)
 
-cppformat: build
+cppformat: dependencies
 	find $(CPP_SRC) -name '*.cpp' -o -name '*.hpp' | xargs clang-format -i
 	run-clang-tidy -fix -j $(shell nproc) -p build

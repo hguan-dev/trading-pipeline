@@ -19,10 +19,6 @@ jobs:
       with:
         python-version: "3.12"
 
-    - name: Install Dependencies
-      run: |
-        make pythoninstall
-
     - name: Run Python Unit Tests
       run: |
         make pytest-unit
