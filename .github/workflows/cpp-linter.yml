@@ -20,7 +20,7 @@ jobs:
             python-version: '3.12'
        
         - name: Install Dependencies
-          run: make dependencies
+          run: make cppinstall
 
         - name: Run Clang-Tidy and Clang-Format (Linters)
           run: |
