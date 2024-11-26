@@ -18,13 +18,12 @@ class Trade(TypedDict):
 
 class DataClient:
     def __init__(self) -> None:
-        self.raw_data: list[dict[str, Any]] = []
-        self.parsed_data: list[Trade] = []
+        return
 
-    def _query_api(self) -> None:
+    def _query_api(self) -> Any:
         base_url = "https://api.gemini.com/v1"
         response = requests.get(base_url + "/trades/btcusd")
-        self.raw_data = response.json()
+        return response.json()
 
     def _parse_message(self, message: dict[str, Any]) -> Trade:
         # data 'validation'
@@ -48,6 +47,5 @@ class DataClient:
         )
 
     def get_data(self) -> list[Trade]:
-        self._query_api()
-        self.parsed_data = [self._parse_message(msg) for msg in self.raw_data]
-        return self.parsed_data
+        return [self._parse_message(msg) for msg in self._query_api()]
+
