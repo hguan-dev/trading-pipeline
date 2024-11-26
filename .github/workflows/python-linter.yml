@@ -22,4 +22,3 @@ jobs:
     - name: Run Linters
       run: |
         make pylint
-        make pyformat

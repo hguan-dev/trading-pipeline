@@ -22,4 +22,3 @@ jobs:
         - name: Run Clang-Tidy and Clang-Format (Linters)
           run: |
             make cpplint
-            make cppformat

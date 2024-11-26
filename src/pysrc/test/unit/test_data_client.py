@@ -27,10 +27,9 @@ class TestDataClient(TestCase):
         parsed_trade = self.client._parse_message(mock_message)
         self.assertEqual(parsed_trade, expected_trade)
 
-    @patch.object(DataClient, "_query_api")
-    def test_get_data(self, mock_query_api: MagicMock) -> None:
-        mock_query_api.return_value = None
-        self.client.raw_data = [
+    @patch("pysrc.data_client.requests.get")
+    def test_get_data(self, mock_get: MagicMock) -> None:
+        mock_api_response = [
             {
                 "timestampms": 15151515,
                 "tid": 6969696969,
@@ -39,6 +38,8 @@ class TestDataClient(TestCase):
                 "type": "buy",
             }
         ]
+
+        mock_get.return_value.json.return_value = mock_api_response
 
         result = self.client.get_data()
 

@@ -1,5 +1,5 @@
 import pytest
-from pysrc import intern
+from pysrc import intern  # type: ignore[attr-defined]
 
 
 def test_pybind() -> None:

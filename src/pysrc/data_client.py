@@ -48,4 +48,3 @@ class DataClient:
 
     def get_data(self) -> list[Trade]:
         return [self._parse_message(msg) for msg in self._query_api()]
-
