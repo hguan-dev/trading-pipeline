@@ -13,5 +13,5 @@ int add(int a, int b)
 
 PYBIND11_MODULE(intern, m)
 {
-    m.def("add", &add, "Adds two numbers");
+    m.def("add", &add, "A function that adds two numbers");
 }
