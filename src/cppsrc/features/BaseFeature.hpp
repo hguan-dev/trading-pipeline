@@ -1,3 +1,5 @@
+#ifndef INTPROJ_BASE_FEATURE_HPP
+#define INTPROJ_BASE_FEATURE_HPP
 #include <tuple>
 #include <vector>
 
@@ -11,5 +13,6 @@ class BaseFeature
     virtual ~BaseFeature() {}
 };
 
-
 }// namespace intproj
+
+#endif// INTPROJ_BASE_FEATURE_HPP
