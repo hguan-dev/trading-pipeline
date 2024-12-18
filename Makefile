@@ -41,7 +41,7 @@ pytest-unit: pythoninstall
 pytest-integration: pythoninstall
 	@poetry run pytest $(PY_SRC)/test/integration
 
-# C++ Tests (to be finished)
+# C++ Tests
 cpptest: build
 	@cd build && ./intern_tests
 
