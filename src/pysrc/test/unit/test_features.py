@@ -35,17 +35,18 @@ def test_percent_sell_feature() -> None:
 
 def test_five_tick_volume_feature() -> None:
     feature = intern.FiveTickVolumeFeature()
-    tick_data = [[(2, 1, False)], 
-                 [(1, 1, False)], 
-                 [(1, 1, False), (1, 1, True)],
-                 [(1, 1, False), (1, 1, True)],
-                 [(2, 1, False), (1, 1, True)],
-                 [(1, 1, False), (1, 1, True)],
-                 [(2, 1, False), (1, 1, True)]]
-    
+    tick_data = [
+        [(2, 1, False)],
+        [(1, 1, False)],
+        [(1, 1, False), (1, 1, True)],
+        [(1, 1, False), (1, 1, True)],
+        [(2, 1, False), (1, 1, True)],
+        [(1, 1, False), (1, 1, True)],
+        [(2, 1, False), (1, 1, True)],
+    ]
+
     expected_results = [1.0, 2.0, 4.0, 6.0, 8.0, 9.0, 10.0]
 
     for tick, expected in zip(tick_data, expected_results):
         result = feature.compute_feature(tick)
         assert result == expected
-        
