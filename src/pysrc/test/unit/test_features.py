@@ -4,9 +4,9 @@ import math
 
 # Test data
 trade_data = [
-    (100.5, 10, True),  # Price, Volume, Buy
-    (101.0, 5, False),  # Price, Volume, Sell
-    (102.0, 20, True),  # Price, Volume, Buy
+    (100.5, 10, True),
+    (101.0, 5, False),
+    (102.0, 20, True),
 ]
 
 

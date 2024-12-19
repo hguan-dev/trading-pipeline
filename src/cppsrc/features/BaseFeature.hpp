@@ -1,5 +1,5 @@
-#ifndef INTPROJ_BASE_FEATURE_HPP
-#define INTPROJ_BASE_FEATURE_HPP
+#pragma once
+
 #include <tuple>
 #include <vector>
 
@@ -14,5 +14,3 @@ class BaseFeature
 };
 
 }// namespace intproj
-
-#endif// INTPROJ_BASE_FEATURE_HPP

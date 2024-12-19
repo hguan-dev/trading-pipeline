@@ -1,5 +1,4 @@
-#ifndef PERCENTSELLFEATURE_HPP
-#define PERCENTSELLFEATURE_HPP
+#pragma once
 
 #include "BaseFeature.hpp"
 #include <cmath>
@@ -8,13 +7,13 @@
 
 namespace intproj {
 
-using Trade = std::tuple<float, float, bool>;// Price, Volume, Buy/Sell flag
+using Trade = std::tuple<float, float, bool>;
 
 class PercentSellFeature : public BaseFeature
 {
   public:
     // Compute the percentage of sell trades in the dataset
-    float compute_feature(std::vector<std::tuple<float, float, bool>> data) override
+    float compute_feature(std::vector<Trade> data) override
     {
         int sell_count = 0;
         for (const auto &trade : data) {
@@ -25,5 +24,3 @@ class PercentSellFeature : public BaseFeature
 };
 
 }// namespace intproj
-
-#endif// PERCENTSELLFEATURE_HPP
