@@ -1,5 +1,6 @@
 import pytest
 from pysrc import intern # type:ignore
+import math
 
 # Test data
 trade_data = [
@@ -22,13 +23,13 @@ def test_percent_buy_feature() -> None:
     """Test PercentBuyFeature compute_feature."""
     feature = intern.PercentBuyFeature()
     result = feature.compute_feature(trade_data)
-    assert result == 2 / 3  # 2 out of 3 trades are buy trades
+    assert math.isclose(result, 2/3, rel_tol=1e-6) 
 
 def test_percent_sell_feature() -> None:
     """Test PercentSellFeature compute_feature."""
     feature = intern.PercentSellFeature()
     result = feature.compute_feature(trade_data)
-    assert result == 1 / 3  # 1 out of 3 trades are sell trades
+    assert math.isclose(result, 1/3, rel_tol=1e-6) 
 
 def test_five_tick_volume_feature() -> None:
     """Test FiveTickVolumeFeature compute_feature."""

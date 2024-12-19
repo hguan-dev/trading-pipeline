@@ -20,7 +20,7 @@ class PercentBuyFeature : public BaseFeature
         for (const auto &trade : data) {
             if (std::get<2>(trade)) { buy_count++; }
         }
-        return (data.empty()) ? 0.0f : std::round(static_cast<float>(buy_count) / data.size() * 100.0f) / 100.0f;
+        return (data.empty()) ? 0.0f : static_cast<float>(buy_count) / data.size();
     }
 };
 

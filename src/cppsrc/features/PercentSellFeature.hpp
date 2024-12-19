@@ -20,8 +20,7 @@ class PercentSellFeature : public BaseFeature
         for (const auto &trade : data) {
             if (!std::get<2>(trade)) { sell_count++; }
         }
-        float percentage = (data.empty()) ? 0.0f : static_cast<float>(sell_count) / data.size();
-        return std::round(percentage * 100.0f) / 100.0f;
+        return (data.empty()) ? 0.0f : static_cast<float>(sell_count) / data.size();
     }
 };
 
