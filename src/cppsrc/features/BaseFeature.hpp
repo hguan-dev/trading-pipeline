@@ -1,3 +1,5 @@
+#pragma once
+
 #include <tuple>
 #include <vector>
 
@@ -10,6 +12,5 @@ class BaseFeature
 
     virtual ~BaseFeature() {}
 };
-
 
 }// namespace intproj
