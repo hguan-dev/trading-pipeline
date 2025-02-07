@@ -1,7 +1,7 @@
 # tests/integration/test_data_client.py
 
 import pytest
-from pysrc.data_client import DataClient, Trade, Side
+from pysrc.data_client import DataClient, Side
 
 
 @pytest.mark.integration

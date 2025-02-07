@@ -2,7 +2,6 @@ import pytest
 from pysrc import intern  # type:ignore
 import math
 
-# Test data
 trade_data = [
     (100.5, 10, True),
     (101.0, 5, False),
