@@ -47,4 +47,3 @@ def test_model_training_inference() -> None:
         ), "Model should return a valid prediction after training"
         time.sleep(0.25)
 
-    print(f"First trade data: {test_data[0]}")

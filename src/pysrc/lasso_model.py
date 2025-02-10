@@ -6,9 +6,9 @@ from typing import Any, Optional
 class LassoModel:
     def __init__(self) -> None:
         self.reg = Lasso()
-        self.X: list[list[Any]] = []
+        self.X: list[list[float]] = []
         self.Y: list[list[float]] = []
-        self.curr_tick_features: Optional[list[Any]] = None
+        self.curr_tick_features: Optional[list[float]] = None
         self.curr_tick_midprice: Optional[float] = None
         self.ntf = intern.NTradesFeature()
         self.ptf = intern.PercentBuyFeature()
@@ -43,7 +43,7 @@ class LassoModel:
             self.X.pop(0)
             self.Y.pop(0)
 
-    def predict(self) -> Any:
+    def predict(self) -> float:
         if len(self.X) < 10:
             return None
 
