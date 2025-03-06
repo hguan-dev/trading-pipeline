@@ -26,7 +26,6 @@ class DataClient:
         return response.json()
 
     def _parse_message(self, message: dict[str, Any]) -> Trade:
-        # data 'validation'
         if "timestampms" not in message:
             raise ValueError("Missing required field: 'timestampms'")
         if "tid" not in message:

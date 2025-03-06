@@ -11,6 +11,7 @@ build: cppinstall
 		-DCMAKE_TOOLCHAIN_FILE=$(RELEASE_TYPE)/generators/conan_toolchain.cmake \
 		-DCMAKE_BUILD_TYPE=$(RELEASE_TYPE) \
 		-DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
+		-DPYTHON_EXECUTABLE=$(shell which python3) \
 		-G Ninja
 	cd build && cmake --build .
 	@cp -f build/*.so $(PY_SRC)

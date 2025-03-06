@@ -28,6 +28,9 @@ python = "^3.12"
 pytest = "^8.3.3"
 mypy = "^1.12.1"
 ruff = "^0.7.0"
+scikit-learn = "^1.6.0"
+tqdm = "^4.67.1"
+pandas = "^2.2.3"
 
 [build-system]
 requires = ["poetry-core"]
