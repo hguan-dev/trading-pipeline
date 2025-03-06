@@ -43,10 +43,10 @@ class LassoModel:
             self.X.pop(0)
             self.Y.pop(0)
 
-    def predict(self) -> float:
+    def predict(self) -> Optional[float]:
         if len(self.X) < 10:
             return None
 
         self.reg.fit(self.X, self.Y)
 
-        return self.reg.predict([self.curr_tick_features])
+        return float(self.reg.predict([self.curr_tick_features])[0])

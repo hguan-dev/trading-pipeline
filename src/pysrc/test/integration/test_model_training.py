@@ -15,8 +15,8 @@ def test_model_training_inference() -> None:
 
     for i in range(10):
         test_data = client.get_data()
-        assert isinstance(test_data, list), "DataClient should return a list"
-        assert len(test_data) > 0, "No trade data received from API"
+        assert isinstance(test_data, list)
+        assert len(test_data) > 0
 
         parsed_data = [
             (trade["price"], trade["volume"], trade["side"] == Side.BUY)
@@ -24,15 +24,13 @@ def test_model_training_inference() -> None:
         ]
         model.add_tick(parsed_data)
 
-        assert (
-            model.predict() is None
-        ), "Model should return None before training data accumulates"
+        assert model.predict() is None
         time.sleep(0.25)
 
     for i in range(10):
         test_data = client.get_data()
-        assert isinstance(test_data, list), "DataClient should return a list"
-        assert len(test_data) > 0, "No trade data received from API"
+        assert isinstance(test_data, list)
+        assert len(test_data) > 0
 
         parsed_data = [
             (trade["price"], trade["volume"], trade["side"] == Side.BUY)
@@ -42,8 +40,5 @@ def test_model_training_inference() -> None:
 
         # Expect predictions after training
         prediction = model.predict()
-        assert (
-            prediction is not None
-        ), "Model should return a valid prediction after training"
+        assert prediction is not None
         time.sleep(0.25)
-
