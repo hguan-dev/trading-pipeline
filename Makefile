@@ -37,10 +37,10 @@ test: pytest-unit pytest-integration cpptest
 
 # Python Tests
 pytest-unit: pythoninstall build
-	@poetry run pytest $(PY_SRC)/test/unit
+	PYTHONPATH=src poetry run pytest $(PY_SRC)/test/unit
 
 pytest-integration: pythoninstall build
-	@poetry run pytest $(PY_SRC)/test/integration
+	PYTHONPATH=src poetry run pytest $(PY_SRC)/test/integration
 
 # C++ Tests
 cpptest: build
