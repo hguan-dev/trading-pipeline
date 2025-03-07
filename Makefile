@@ -54,7 +54,7 @@ lint: pylint cpplint
 
 # Python Linting
 pylint: pythoninstall
-	poetry run mypy --install-types --non-interactive $(PY_SRC)
+	PYTHONPATH=src/pysrc poetry run mypy --install-types --non-interactive --ignore-missing-imports $(PY_SRC)
 	poetry run ruff check $(PY_SRC)
 	poetry run ruff format --check $(PY_SRC)
 

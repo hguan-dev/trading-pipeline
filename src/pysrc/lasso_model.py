@@ -1,5 +1,5 @@
-from sklearn.linear_model import Lasso  # type: ignore
-import intern  # type: ignore
+from sklearn.linear_model import Lasso
+import intern
 from typing import Optional
 
 
