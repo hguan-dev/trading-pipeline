@@ -37,10 +37,10 @@ test: pytest-unit pytest-integration cpptest
 
 # Python Tests
 pytest-unit: pythoninstall build
-	@poetry run pytest $(PY_SRC)/test/unit
+	PYTHONPATH=src poetry run pytest $(PY_SRC)/test/unit
 
 pytest-integration: pythoninstall build
-	@poetry run pytest $(PY_SRC)/test/integration
+	PYTHONPATH=src poetry run pytest $(PY_SRC)/test/integration
 
 # C++ Tests
 cpptest: build
@@ -54,7 +54,7 @@ lint: pylint cpplint
 
 # Python Linting
 pylint: pythoninstall
-	poetry run mypy --install-types --non-interactive $(PY_SRC)
+	PYTHONPATH=src/pysrc poetry run mypy --install-types --non-interactive --ignore-missing-imports $(PY_SRC)
 	poetry run ruff check $(PY_SRC)
 	poetry run ruff format --check $(PY_SRC)
 

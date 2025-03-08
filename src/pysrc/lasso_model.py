@@ -1,6 +1,6 @@
-from sklearn.linear_model import Lasso  # type: ignore
+from sklearn.linear_model import Lasso
 from pysrc import intern  # type: ignore
-from typing import Any, Optional
+from typing import Optional
 
 
 class LassoModel:
